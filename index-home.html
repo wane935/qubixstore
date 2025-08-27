@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QubixStore - Home</title>
+<style>
+/* Reset & Body */
+* {margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif;}
+body {background:linear-gradient(135deg,#0f0c0c,#4b0d0d); color:#fff; min-height:100vh; position:relative;}
+
+/* Top Header: Logo + Account + Cart */
+.header {display:flex; justify-content:space-between; align-items:center; padding:20px;}
+.brand {font-size:2.5rem; font-weight:bold;
+  background:linear-gradient(90deg,#ff4d4d,#8B4513,black); background-size:600% 600%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:2px 2px 10px rgba(0,0,0,0.7);
+  animation:gradientMove 5s ease infinite;
+}
+.header-icons {display:flex; align-items:center; gap:15px;}
+
+/* Account Icon */
+.account {cursor:pointer; display:flex; align-items:center; justify-content:center;}
+.account-icon {width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#ff4d4d,#8b4513,#0f0c0c); position:relative; display:flex; align-items:center; justify-content:center;}
+.account-icon .head {width:14px; height:14px; background:#000; border-radius:50%; position:absolute; top:8px;}
+.account-icon .body {width:20px; height:12px; background:#000; border-radius:50%/50%; position:absolute; bottom:6px;}
+
+/* Cart Icon */
+.cart {position:relative; cursor:pointer;}
+.cart-icon {width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#ff4d4d,#8b4513,#0f0c0c); display:flex; align-items:center; justify-content:center; font-size:18px;}
+#miniCart {display:none; position:absolute; top:50px; right:0; width:300px; max-height:400px; overflow-y:auto; background:rgba(0,0,0,0.85); border-radius:12px; padding:10px; box-shadow:0 8px 24px rgba(0,0,0,.5); z-index:20;}
+#miniCart h3 {margin-bottom:10px; text-align:center; font-size:1.1rem;}
+.cart-item {display:flex; gap:10px; align-items:center; margin-bottom:10px;}
+.cart-item img {width:50px; height:50px; object-fit:cover; border-radius:6px;}
+.cart-item div {flex:1;}
+.cart-item p {margin:0;}
+.cart-item .price {font-size:0.85rem; color:#ffb347;}
+.cart-item button {background:#ff4d4d; border:none; border-radius:50%; color:#fff; width:25px; height:25px; cursor:pointer;}
+
+/* Notification */
+#cartNotification {position:fixed; bottom:20px; left:50%; transform:translateX(-50%); color:#00ff00; font-weight:bold; font-size:1rem; pointer-events:none; transition:opacity 0.5s; opacity:0; z-index:50;}
+
+/* Search Bar */
+.search-container {display:flex; justify-content:center; margin:10px 0; gap:10px;}
+.search-input {padding:10px; border-radius:5px; border:none; width:300px; max-width:70%;}
+.search-btn {padding:10px 20px; border:none; border-radius:5px; background:linear-gradient(45deg,#ff4d4d,#ff1a1a); color:#fff; cursor:pointer;}
+
+/* Navbar + Free Shipping */
+.navbar-container {display:flex; justify-content:space-between; align-items:center; padding:0 20px; margin-bottom:20px;}
+.left-info {color:#ffb84d; font-size:1rem; font-weight:500;}
+.navbar {display:flex; gap:30px; list-style:none;}
+.navbar li a {text-decoration:none; color:#fff; font-size:1.1rem; font-weight:500; transition:color .3s;}
+.navbar li.active a {background:linear-gradient(90deg,#ff4d4d,#8B4513); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; text-shadow:none;}
+
+/* Products */
+.products {text-align:center; margin-top:20px; padding:0 20px 50px 20px;}
+.products h2 {font-size:2rem; margin-bottom:40px;}
+.product-grid {display:grid; grid-template-columns:repeat(4,1fr); gap:20px; max-width:1200px; margin:0 auto;}
+.product-card {background:#1a0f0f; border-radius:12px; padding:20px; box-shadow:0 5px 15px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:space-between; transition:transform .3s, box-shadow .3s;}
+.product-card:hover {transform:translateY(-5px); box-shadow:0 10px 20px rgba(255,77,77,0.5);}
+.product-card img {width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;}
+.product-card h3 {font-size:1.2rem; margin-bottom:10px;}
+.product-card p {font-size:.95rem; color:#ccc; margin-bottom:15px;}
+.button-group {display:flex; justify-content:space-between; gap:10px;}
+.button-group button, .button-group .buy-btn {flex:1; padding:10px 0; border:none; border-radius:50px; background:linear-gradient(45deg,#ff4d4d,#ff1a1a); color:#fff; cursor:pointer; text-decoration:none; transition:transform .3s;}
+.button-group button:hover, .button-group .buy-btn:hover {transform:scale(1.05);}
+
+/* Responsive */
+@media(max-width:992px){.navbar-container{flex-direction:column; gap:10px; align-items:center;}.navbar{justify-content:center;}.product-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:600px){.header{flex-direction:column; text-align:center; gap:10px;}.product-grid{grid-template-columns:1fr;} }
+@keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <h1 class="brand">QubixStore</h1>
+  <div class="header-icons">
+    <span class="account" onclick="location.href='account.html'">
+      <div class="account-icon">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+    </span>
+    <span class="cart">
+      <div class="cart-icon">🛒</div>
+      <div id="miniCart">
+        <h3>Your Cart</h3>
+        <div id="cartItems"></div>
+        <a href="cart-checkout.html" style="display:block; text-align:center; margin-top:10px; padding:8px 0; border-radius:12px; background:linear-gradient(45deg,#ff4d4d,#ff1a1a); color:#fff; text-decoration:none;">Go to Checkout</a>
+      </div>
+    </span>
+  </div>
+</header>
+
+<!-- Cart Notification -->
+<div id="cartNotification"></div>
+
+<!-- Search -->
+<div class="search-container">
+  <input type="text" placeholder="Search for products..." class="search-input" aria-label="Search products" id="searchInput">
+  <button class="search-btn" onclick="searchProduct()">Search</button>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar-container">
+  <span class="left-info">Free Shipping upto 10,000 Rs order</span>
+  <ul class="navbar">
+    <li class="active"><a href="index-home.html">Home</a></li>
+    <li><a href="stationary.html">Stationary</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Products -->
+<section class="products">
+  <h2>Featured Products</h2>
+  <div class="product-grid" id="productGrid">
+    <div class="product-card" data-name="Ring Light">
+      <img src="light2.png" alt="Ring Light with Adjustable Stand">
+      <h3>Ring Light - <span class="price-text">2000 Rs</span></h3>
+      <p>Ring Light with Adjustable Stand</p>
+      <div class="button-group">
+        <button onclick="addToCart('Ring Light', 2000, 'light2.png')">Add to Cart</button>
+        <a href="ringlight.html" class="buy-btn">Buy</a>
+      </div>
+    </div>
+    <div class="product-card" data-name="Power Bank">
+      <img src="powerbank.png" alt="Solar-Charge 20,000 mAh Waterproof Power Bank">
+      <h3>Power Bank - <span class="price-text">3500 Rs</span></h3>
+      <p>Solar-Charge 20,000 mAh Waterproof Power Bank</p>
+      <div class="button-group">
+        <button onclick="addToCart('Power Bank', 3500, 'powerbank.png')">Add to Cart</button>
+        <a href="product2.html" class="buy-btn">Buy</a>
+      </div>
+    </div>
+    <div class="product-card" data-name="Selfie Stick">
+      <img src="selfirstick.png" alt="Adjustable Selfie Stick & Stand">
+      <h3>Selfie Stick - <span class="price-text">1200 Rs</span></h3>
+      <p>Adjustable Selfie Stick & Stand</p>
+      <div class="button-group">
+        <button onclick="addToCart('Selfie Stick', 1200, 'selfirstick.png')">Add to Cart</button>
+        <a href="product3.html" class="buy-btn">Buy</a>
+      </div>
+    </div>
+    <div class="product-card" data-name="Note Book">
+      <img src="book.png" alt="Stylish Cover Notebooks">
+      <h3>Note Book - <span class="price-text">400 Rs</span></h3>
+      <p>Stylish Cover Notebooks</p>
+      <div class="button-group">
+        <button onclick="addToCart('Note Book', 400, 'book.png')">Add to Cart</button>
+        <a href="product4.html" class="buy-btn">Buy</a>
+      </div>
+    </div>
+    <div class="product-card" data-name="Glitter GellPen">
+      <img src="pen.png" alt="Mega Pack – 100 Glitter Gel Pens">
+      <h3>Glitter GellPen - <span class="price-text">1500 Rs</span></h3>
+      <p>Mega Pack – 100 Glitter Gel Pens</p>
+      <div class="button-group">
+        <button onclick="addToCart('Glitter GellPen', 1500, 'pen.png')">Add to Cart</button>
+        <a href="product5.html" class="buy-btn">Buy</a>
+      </div>
+    </div>
+    <div class="product-card" data-name="Stapler">
+      <img src="staper.png" alt="Durable Office Stapler">
+      <h3>Stapler - <span class="price-text">600 Rs</span></h3>
+      <p>Durable Office Stapler</p>
+      <div class="button-group">
+        <button onclick="addToCart('Stapler', 600, 'staper.png')">Add to Cart</button>
+        <a href="product6.html" class="buy-btn">Buy</a>
+      </div>
+    </div>
+  </div>
+  <p id="noResult" style="text-align:center; color:#ff4d4d; margin-top:20px; display:none;">No result found</p>
+</section>
+
+<script>
+// Cart Panel Toggle
+const cartIcon = document.querySelector('.cart');
+const miniCart = document.getElementById('miniCart');
+cartIcon.addEventListener('click', ()=> { 
+    miniCart.style.display = miniCart.style.display === 'block' ? 'none' : 'block'; 
+});
+
+// Load cart items from localStorage on page load
+function loadMiniCart(){
+  const cartItems = document.getElementById('cartItems');
+  cartItems.innerHTML = '';
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.forEach(item => {
+    const div = document.createElement('div');
+    div.classList.add('cart-item');
+    div.innerHTML = `
+      <img src="${item.img}">
+      <div>
+        <p>${item.name}</p>
+        <p class="price">${item.price} Rs</p>
+      </div>
+      <button onclick="removeItem(this)">×</button>
+    `;
+    cartItems.appendChild(div);
+  });
+}
+loadMiniCart();
+
+// Add product to mini cart & save to localStorage
+function addToCart(name, price, img){
+  // Show notification
+  const notification = document.getElementById('cartNotification');
+  notification.textContent = `${name} added to cart`;
+  notification.style.opacity = '1';
+  setTimeout(()=>{ notification.style.opacity = '0'; },2000);
+
+  // Save in localStorage
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push({name: name, price: price, img: img});
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  // Update mini cart UI
+  loadMiniCart();
+}
+
+// Remove cart item without closing cart
+function removeItem(button){
+  const cartItemsContainer = document.getElementById('cartItems');
+  const items = Array.from(cartItemsContainer.children);
+  const index = items.indexOf(button.parentElement);
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.splice(index,1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadMiniCart();
+}
+
+// Search
+function searchProduct() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const products = document.querySelectorAll('.product-card');
+  let found = false;
+  products.forEach(product => {
+    const name = product.dataset.name.toLowerCase();
+    if(name.includes(query)) {product.style.display='flex'; found=true;} 
+    else {product.style.display='none';}
+  });
+  document.getElementById('noResult').style.display = found ? 'none' : 'block';
+}
+document.getElementById('searchInput').addEventListener('keypress', function(e){ if(e.key==='Enter'){searchProduct();} });
+</script>
+</body>
+</html>

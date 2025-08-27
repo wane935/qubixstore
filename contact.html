@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>QubixStore - Contact</title>
+  <link rel="stylesheet" href="contact.css" />
+</head>
+<body>
+  <!-- Header / Brand (same as Home) -->
+  <header class="header">
+    <h1 class="brand">QubixStore</h1>
+  </header>
+
+  <!-- Navbar (same placement as Home) -->
+  <nav class="navbar-container">
+    <span class="left-info"></span>
+    <ul class="navbar">
+      <li><a href="index-home.html">Home</a></li>
+      <li><a href="stationary.html">Stationary</a></li>
+      <li class="active"><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contact Wrapper -->
+  <main class="contact-wrapper">
+    <!-- Contact Info Cards -->
+    <section class="contact-cards">
+      <div class="card">
+        <h3>Email</h3>
+        <!-- Leave this placeholder; replace later -->
+        <a href="mailto:youremail@domain.com" class="value">youremail@domain.com</a>
+        <p class="hint">We will reply within 24 hours.</p>
+      </div>
+
+      <div class="card">
+        <h3>WhatsApp</h3>
+        <a href="https://wa.me/923000000000" target="_blank" class="value">+92 300 0000000</a>
+        <p class="hint">For quick chat & order queries.</p>
+      </div>
+
+      <div class="card">
+        <h3>Call</h3>
+        <a href="tel:+923111111111" class="value">+92 311 1111111</a>
+        <p class="hint">Mon–Sat, 9:00 AM – 8:00 PM</p>
+      </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact-form-section">
+      <h2>Send us a message</h2>
+      <form id="contactForm" class="contact-form" novalidate>
+        <div class="grid">
+          <label>
+            <span>Name</span>
+            <input type="text" id="name" placeholder="Your full name" required />
+          </label>
+
+          <label>
+            <span>Contact</span>
+            <input type="email" id="email" placeholder="Enter Your Number" required />
+          </label>
+        </div>
+
+        <label class="full">
+          <span>Message</span>
+          <textarea id="message" rows="6" placeholder="Write your message..." required></textarea>
+        </label>
+
+        <button type="submit" class="btn-primary">Send Message</button>
+        <p id="formNote" class="form-note" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- Terms & Conditions (English, detailed) -->
+    <section class="terms">
+      <h2>Terms & Conditions</h2>
+      <ul>
+        <li>
+          <strong>Warranty:</strong> Almost 80% products come with warranty. Duration
+          and coverage may vary by product/category.
+        </li>
+        <li>
+          <strong>Return Proof:</strong> For any return or damage claim,
+          an <em>unboxing video</em> is mandatory as proof. The video must clearly
+          show the unopened package, unsealing process, and the issue found.
+        </li>
+        <li>
+          <strong>Issue Details:</strong> The customer must describe the problem
+          in detail (what’s wrong, when it was noticed, and how it affects usage).
+          Incomplete details can delay support.
+        </li>
+        <li>
+          <strong>Misuse Exclusions:</strong> Warranty/return is not applicable
+          for physical damage, water ingress, improper use, unauthorized repairs,
+          or normal wear and tear.
+        </li>
+        <li>
+          <strong>Fraud & Scam:</strong> Any attempt to commit fraud, fake claims
+          or scams will result in <em>strict legal action</em>, including a police case.
+        </li>
+        <li>
+          <strong>Shipping:</strong> If the product is not defective, return
+          shipping charges are borne by the customer. If DOA/defective on arrival
+          is verified, we’ll guide you for resolution.
+        </li>
+        <li>
+          <strong>Response Time:</strong> We usually respond within 24–48 hours
+          on business days (Mon–Sat).
+        </li>
+        <li>
+          <strong>Privacy:</strong> Your personal information is kept secure and
+          is never shared with third parties without your consent.
+        </li>
+        <li>
+          <strong>Policy Updates:</strong> Policies may be updated without prior
+          notice. The latest version will always be available on this page.
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 QubixStore. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Inline JS -->
+  <script>
+    // Simple form handler
+    const form = document.getElementById('contactForm');
+    const formNote = document.getElementById('formNote');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) {
+        formNote.textContent = "Please fill all required fields.";
+        formNote.classList.add('error');
+        return;
+      }
+
+      // Success UI (you can later connect to backend/email service)
+      form.reset();
+      formNote.classList.remove('error');
+      formNote.textContent = "Message sent successfully ✅ We’ll get back to you soon.";
+    });
+  </script>
+</body>
+</html>
