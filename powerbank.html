@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Power Bank — QubixStore</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Reset & Body */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#0f0c0c,#4b0d0d);
+  color:#fff;
+  overflow-x:hidden;
+  position:relative;
+}
+body::before,body::after{
+  content:""; position:absolute; border-radius:50%; opacity:.1; z-index:0; animation:float 25s linear infinite;
+}
+body::before{ width:600px;height:600px;background:#ff4d4d; top:10%; left:-15%; }
+body::after { width:800px;height:800px;background:#ff1a1a; bottom:-10%; right:-20%; }
+@keyframes float{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-40px) rotate(180deg)}100%{transform:translateY(0) rotate(360deg)}}
+
+/* Header */
+.header{ position:fixed; top:18px; left:20px; z-index:10;}
+.logo{
+  font-size:1.6rem; font-weight:700;
+  background:linear-gradient(90deg,#ff4d4d,#8B4513,black);
+  background-size:600% 600%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:2px 2px 10px rgba(0,0,0,.7);
+  animation:gradientMove 5s linear infinite;
+}
+@keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* Wrap / Panel */
+.wrap{ position:relative; z-index:2; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:90px 20px 40px;}
+.panel{ width:min(1100px,100%); display:grid; gap:24px; grid-template-columns:1.2fr 1fr; background:rgba(255,255,255,.06); border-radius:22px; padding:24px; box-shadow:0 10px 28px rgba(0,0,0,.45); }
+
+/* Gallery */
+.gallery{ background:rgba(255,255,255,.04); border-radius:16px; padding:14px; }
+.gallery img#main-img{ width:100%; height:520px; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px; cursor:pointer; }
+.thumbnails{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.thumbnails img{ width:80px; height:80px; object-fit:cover; border-radius:8px; cursor:pointer; border:2px solid transparent; transition:.25s; }
+.thumbnails img.active{ border-color:#ff4d4d; transform:scale(1.05); }
+
+/* Info */
+.info{ padding:6px; display:flex; flex-direction:column; }
+.info h1{ font-size:1.9rem; margin-bottom:8px; }
+.rating{ font-size:.95rem; opacity:.9; margin-bottom:10px;}
+.price{ font-size:1.6rem; color:#ffb347; font-weight:700; margin:10px 0 16px;}
+.desc{ font-size:1rem; opacity:.95; line-height:1.55; margin-bottom:16px;}
+.features{ margin:10px 0 18px; }
+.features li{ margin-left:18px; line-height:1.5; }
+.extra-info p{ font-size:.9rem; opacity:.8; margin:4px 0; }
+
+/* Buy Box */
+.buy{ margin-top:auto; background:rgba(255,255,255,.06); padding:16px; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.35);}
+.variants{ margin-bottom:12px; }
+.variants select{
+  width:100%; padding:8px 12px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:linear-gradient(135deg,#0f0c0c,#4b0d0d);
+  color:#fff; font-weight:600; appearance:none;
+}
+
+.qty{ display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+.qty-control{ display:flex; align-items:center; gap:6px; }
+.qty input{ width:50px; padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.25); background:transparent; color:#fff; text-align:center; font-weight:600; -moz-appearance:textfield; }
+.qty-control button{ width:30px; height:30px; border:none; border-radius:50%; background:linear-gradient(45deg,#ff4d4d,#ff1a1a); color:#fff; font-weight:700; cursor:pointer; transition:.25s; }
+.qty-control button:hover{ transform:scale(1.1); }
+
+.button-group{ display:flex; gap:10px; margin-bottom:16px; }
+.btn{ flex:1; display:inline-block; text-align:center; padding:12px 0; border-radius:999px; font-weight:700; text-decoration:none; transition:.25s; position:relative; }
+.btn.primary{ background:linear-gradient(45deg,#ff4d4d,#ff1a1a); color:#fff; box-shadow:0 10px 28px rgba(255,77,77,.45);}
+.btn.primary:hover{ transform:scale(1.05); box-shadow:0 14px 40px rgba(255,77,77,.65); }
+
+/* Coupon input */
+.coupon-container{
+  display:flex; gap:10px; margin-bottom:16px; margin-top:10px;
+}
+.coupon-container input{
+  flex:1; padding:8px 10px; border-radius:999px; border:none; font-weight:600;
+}
+.coupon-container button{
+  padding:8px 12px; border-radius:999px; border:none; background:#28a745; color:#fff; font-weight:700; cursor:pointer;
+}
+
+/* Notification */
+#couponNotify{
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:#28a745; padding:12px 22px; border-radius:999px; font-weight:700;
+  opacity:0; pointer-events:none; transition:opacity 0.4s;
+  z-index:999;
+}
+
+/* Responsive */
+@media (max-width:980px){ .panel{grid-template-columns:1fr} .gallery img#main-img{height:380px;} .thumbnails img{width:60px;height:60px;} }
+@media (max-width:600px){ .gallery img#main-img{height:300px;} .info h1{font-size:1.6rem;} .thumbnails img{width:50px;height:50px;} }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="index-home.html">QubixStore</a>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <!-- LEFT: Product Gallery -->
+    <div class="gallery">
+      <img id="main-img" src="light1.png" alt="Ring Light">
+      <div class="thumbnails">
+        <img src="light1.png" alt="Light 1" class="thumb active">
+        <img src="light2.png" alt="Light 2" class="thumb">
+        <img src="light3.png" alt="Light 3" class="thumb">
+        <img src="light4.png" alt="Light 4" class="thumb">
+        <img src="light5.png" alt="Light 5" class="thumb">
+      </div>
+    </div>
+
+    <!-- RIGHT: Product Info & Buy -->
+    <div class="info">
+      <h1>Power Bank</h1>
+      <div class="rating">⭐️⭐️⭐️⭐️☆ (124 reviews)</div>
+      <div class="price" id="productPrice">3500</div>
+
+      <p class="desc">
+        Smooth, vibrant and long-lasting lighting — perfect for streaming, video shoots, aur photography.
+      </p>
+
+      <ul class="features">
+        <li>26 CM Ring Light</li>
+        <li>7 Feet Light Stand</li>
+        <li>Mobile Holder</li>
+        <li>Best For Video Shoot</li>
+      </ul>
+
+      <div class="extra-info">
+        <p>🎁 Free Shipping above 10,000Rs orders</p>
+        <p>⚡ Limited Stock — Order Now!</p>
+      </div>
+
+      <!-- Coupon Input -->
+      <div class="coupon-container">
+        <input type="text" id="couponCode" placeholder="Enter coupon code">
+        <button onclick="applyCoupon()">Apply</button>
+      </div>
+
+      <div class="buy">
+        <div class="variants">
+          <label for="color">Choose Color:</label>
+          <select id="color">
+            <option>Black</option>
+            <option>White</option>
+            <option>Green</option>
+            <option>Pink</option>
+          </select>
+        </div>
+
+        <div class="qty">
+          <label for="q">Quantity:</label>
+          <div class="qty-control">
+            <button class="minus">-</button>
+            <input id="q" type="number" min="1" value="1">
+            <button class="plus">+</button>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <a href="#" class="btn primary" id="addCartBtn">Add to Cart</a>
+          <a href="#" class="btn primary" id="buyNowBtn">Buy Now</a>
+        </div>
+
+        <div class="priceDisplay" style="margin-top:10px; font-weight:700; font-size:1.2rem; color:#ffb347;" id="finalPrice"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Notification -->
+<div id="couponNotify">Coupon Activated!</div>
+
+<script>
+const minusBtn = document.querySelector('.minus');
+const plusBtn = document.querySelector('.plus');
+const qtyInput = document.getElementById('q');
+const productPriceEl = document.getElementById('productPrice');
+const finalPriceEl = document.getElementById('finalPrice');
+const couponNotify = document.getElementById('couponNotify');
+
+let qty = parseInt(qtyInput.value);
+let price = parseInt(productPriceEl.textContent);
+let discountApplied = false;
+let discountPercent = 0;
+
+const validCoupons = { 'DIS10FORU': 10 };
+
+// Quantity buttons
+minusBtn.addEventListener('click', ()=>{ if(qty>1) { qty--; qtyInput.value=qty; updatePrice(); } });
+plusBtn.addEventListener('click', ()=>{ qty++; qtyInput.value=qty; updatePrice(); } );
+qtyInput.addEventListener('input', ()=>{ qty=parseInt(qtyInput.value) || 1; updatePrice(); });
+
+// Thumbnails
+const thumbs = document.querySelectorAll('.thumb');
+const mainImg = document.getElementById('main-img');
+thumbs.forEach(thumb=>{
+  thumb.addEventListener('click', ()=>{
+    thumbs.forEach(t=>t.classList.remove('active'));
+    thumb.classList.add('active');
+    mainImg.src = thumb.src;
+  });
+});
+mainImg.addEventListener('click', ()=>{ window.open(mainImg.src,"_blank"); });
+
+// Price calculation
+function updatePrice(){
+  let final = price * qty;
+  if(discountApplied) final = final * (1 - discountPercent/100);
+  finalPriceEl.textContent = `Total: ${final} Rs` + (discountApplied ? ` (${discountPercent}% discount)` : '');
+}
+
+// Coupon
+function applyCoupon(){
+  const code = document.getElementById('couponCode').value.trim().toUpperCase();
+  if(validCoupons[code] && !discountApplied){
+    discountApplied=true;
+    discountPercent = validCoupons[code];
+    showNotification(`${discountPercent}% Coupon Activated!`);
+    updatePrice();
+  }else if(discountApplied){
+    showNotification("Coupon already applied!", true);
+  }else{
+    showNotification("Invalid coupon!", true);
+  }
+}
+
+function showNotification(msg, isError=false){
+  couponNotify.textContent = msg;
+  couponNotify.style.background = isError ? '#dc3545' : '#28a745';
+  couponNotify.style.opacity='1';
+  setTimeout(()=>{ couponNotify.style.opacity='0'; }, 2500);
+}
+
+// Add to Cart / Buy Now (for demonstration)
+document.getElementById('addCartBtn').addEventListener('click', ()=>{
+  alert(`Added ${qty} item(s) to cart. Total: ${finalPriceEl.textContent}`);
+});
+document.getElementById('buyNowBtn').addEventListener('click', ()=>{
+  alert(`Buying ${qty} item(s). Total: ${finalPriceEl.textContent}`);
+});
+
+updatePrice();
+</script>
+
+</body>
+</html>

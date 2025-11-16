@@ -38,15 +38,45 @@ button{cursor:pointer;}
 .product-card h3{font-size:1.2rem;margin-bottom:10px;}
 .product-card p{font-size:0.95rem;color:#ccc;margin-bottom:15px;}
 .button-group{display:flex;justify-content:space-between;gap:10px;}
-.button-group button,.button-group a{flex:1;padding:10px 0;border:none;border-radius:50px;background:linear-gradient(45deg,#ff4d4d,#ff1a1a);color:#fff;font-weight:600;text-align:center;transition:transform 0.3s;}
+.button-group button,.button-group a{flex:1;padding:10px 0;border:none;border-radius:50px;background:linear-gradient(45deg,#ff4d4d,#ff1a1a);color:#fff;font-weight:600;text-align:center;transition:transform 0.3s;display:flex;justify-content:center;align-items:center;}
 .button-group button:hover,.button-group a:hover{transform:scale(1.05);}
+
+/* Make Buy button font slightly larger to match home section */
+.button-group a.buy-btn {
+  font-size:1rem;         /* increased font size for Buy */
+  line-height:1.2;
+  font-weight:700;
+  padding:10px 0;
+}
 
 /* No result message */
 #noResult{text-align:center;color:#ff4d4d;margin-top:20px;display:none;}
 
-/* Responsive */
-@media(max-width:992px){.navbar-container{flex-direction:column;gap:10px;align-items:center;}.product-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){.product-grid{grid-template-columns:1fr;}.header{text-align:center;}}
+/* Responsive fixes */
+@media(max-width:992px){
+  .navbar-container{flex-direction:column;gap:10px;align-items:center;}
+  .product-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:600px){
+  .header{text-align:center;}
+  /* maintain 2 per row on mobile like homepage */
+  .product-grid{grid-template-columns:repeat(2,1fr);}
+  
+  .button-group button,
+  .button-group a{
+    padding:8px 0 !important;
+    font-size:0.95rem !important;
+    line-height:1.15 !important;
+  }
+
+  /* ensure Buy button keeps the slightly larger size on small screens */
+  .button-group a.buy-btn{
+    font-size:1rem !important;
+    line-height:1.2 !important;
+    font-weight:700 !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -78,7 +108,7 @@ button{cursor:pointer;}
   <div class="product-grid" id="productGrid">
     <div class="product-card" data-name="Notebook">
       <img src="book.png" alt="Notebook">
-      <h3>Note book</h3>
+      <h3>Note book- <span class="price-text">400 Rs</span></h3>
       <p>Stylish Cover Notebook</p>
       <div class="button-group">
         <button onclick="addToCart('Notebook')">Add to Cart</button>
@@ -87,7 +117,7 @@ button{cursor:pointer;}
     </div>
     <div class="product-card" data-name="Pen Set">
       <img src="glitterpen.png" alt="Pen Set">
-      <h3>Glitter GelPen</h3>
+      <h3>Glitter GelPen- <span class="price-text">1500 Rs</span></h3>
       <p>Mega Pack – 100 Glitter Gel Pens</p>
       <div class="button-group">
         <button onclick="addToCart('Pen Set')">Add to Cart</button>
@@ -96,7 +126,7 @@ button{cursor:pointer;}
     </div>
     <div class="product-card" data-name="Stapler">
       <img src="staper.png" alt="Stapler">
-      <h3>Stapler</h3>
+      <h3>Stapler- <span class="price-text">600 Rs</span></h3>
       <p>Durable Office Stapler</p>
       <div class="button-group">
         <button onclick="addToCart('Stapler')">Add to Cart</button>
@@ -105,7 +135,7 @@ button{cursor:pointer;}
     </div>
     <div class="product-card" data-name="Highlighter">
       <img src="highliter.png" alt="Highlighter">
-      <h3>Highlighter</h3>
+      <h3>Highlighter- <span class="price-text">50 Rs</span></h3>
       <p>Bright Highlighters</p>
       <div class="button-group">
         <button onclick="addToCart('Highlighter')">Add to Cart</button>

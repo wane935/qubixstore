@@ -55,24 +55,47 @@ body {background:linear-gradient(135deg,#0f0c0c,#4b0d0d); color:#fff; min-height
 .products {text-align:center; margin-top:20px; padding:0 20px 50px 20px;}
 .products h2 {font-size:2rem; margin-bottom:40px;}
 .product-grid {display:grid; grid-template-columns:repeat(4,1fr); gap:20px; max-width:1200px; margin:0 auto;}
-.product-card {background:#1a0f0f; border-radius:12px; padding:20px; box-shadow:0 5px 15px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:space-between; transition:transform .3s, box-shadow .3s;}
+
+/* ENTRY ANIMATION restored */
+.product-card {opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease;
+  background:#1a0f0f; border-radius:12px; padding:20px; box-shadow:0 5px 15px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:space-between; transition:transform .3s, box-shadow .3s;
+}
+
+/* fade-in active */
+.product-card.show {opacity:1; transform:translateY(0);}
+
+/* hover animations restored */
 .product-card:hover {transform:translateY(-5px); box-shadow:0 10px 20px rgba(255,77,77,0.5);}
+
 .product-card img {width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;}
 .product-card h3 {font-size:1.2rem; margin-bottom:10px;}
 .product-card p {font-size:.95rem; color:#ccc; margin-bottom:15px;}
+
+/* button animations restored */
 .button-group {display:flex; justify-content:space-between; gap:10px;}
 .button-group button, .button-group .buy-btn {flex:1; padding:10px 0; border:none; border-radius:50px; background:linear-gradient(45deg,#ff4d4d,#ff1a1a); color:#fff; cursor:pointer; text-decoration:none; transition:transform .3s;}
-.button-group button:hover, .button-group .buy-btn:hover {transform:scale(1.05);}
+.button-group button:hover, .button-group .buy-btn:hover {transform:scale(1.08);}
 
 /* Responsive */
 @media(max-width:992px){.navbar-container{flex-direction:column; gap:10px; align-items:center;}.navbar{justify-content:center;}.product-grid{grid-template-columns:repeat(2,1fr);} }
-@media(max-width:600px){.header{flex-direction:column; text-align:center; gap:10px;}.product-grid{grid-template-columns:1fr;} }
+@media(max-width:600px){.header{flex-direction:column; text-align:center; gap:10px;}.product-grid{grid-template-columns:repeat(2,1fr);} }
+
+/* MOBILE override */
+@media (max-width:600px) {
+  .product-grid {grid-template-columns: repeat(2, 1fr) !important; gap:12px; padding:0 10px;}
+  .product-card {padding:14px;}
+  .product-card img {height:150px !important;}
+  .product-card h3 {font-size:1rem;}
+}
+
+/* Center Buy button */
+.product-card .buy-btn {display:flex; justify-content:center; align-items:center; height:40px; text-align:center;}
+
 @keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header class="header">
   <h1 class="brand">QubixStore</h1>
   <div class="header-icons">
@@ -93,16 +116,13 @@ body {background:linear-gradient(135deg,#0f0c0c,#4b0d0d); color:#fff; min-height
   </div>
 </header>
 
-<!-- Cart Notification -->
 <div id="cartNotification"></div>
 
-<!-- Search -->
 <div class="search-container">
   <input type="text" placeholder="Search for products..." class="search-input" aria-label="Search products" id="searchInput">
   <button class="search-btn" onclick="searchProduct()">Search</button>
 </div>
 
-<!-- Navbar -->
 <nav class="navbar-container">
   <span class="left-info">Free Shipping upto 10,000 Rs order</span>
   <ul class="navbar">
@@ -112,77 +132,141 @@ body {background:linear-gradient(135deg,#0f0c0c,#4b0d0d); color:#fff; min-height
   </ul>
 </nav>
 
-<!-- Products -->
 <section class="products">
   <h2>Featured Products</h2>
   <div class="product-grid" id="productGrid">
-    <div class="product-card" data-name="Ring Light">
-      <img src="light2.png" alt="Ring Light with Adjustable Stand">
-      <h3>Ring Light - <span class="price-text">2000 Rs</span></h3>
-      <p>Ring Light with Adjustable Stand</p>
-      <div class="button-group">
-        <button onclick="addToCart('Ring Light', 2000, 'light2.png')">Add to Cart</button>
-        <a href="ringlight.html" class="buy-btn">Buy</a>
-      </div>
-    </div>
-    <div class="product-card" data-name="Power Bank">
-      <img src="powerbank.png" alt="Solar-Charge 20,000 mAh Waterproof Power Bank">
-      <h3>Power Bank - <span class="price-text">3500 Rs</span></h3>
-      <p>Solar-Charge 20,000 mAh Waterproof Power Bank</p>
-      <div class="button-group">
-        <button onclick="addToCart('Power Bank', 3500, 'powerbank.png')">Add to Cart</button>
-        <a href="product2.html" class="buy-btn">Buy</a>
-      </div>
-    </div>
-    <div class="product-card" data-name="Selfie Stick">
-      <img src="selfirstick.png" alt="Adjustable Selfie Stick & Stand">
-      <h3>Selfie Stick - <span class="price-text">1200 Rs</span></h3>
-      <p>Adjustable Selfie Stick & Stand</p>
-      <div class="button-group">
-        <button onclick="addToCart('Selfie Stick', 1200, 'selfirstick.png')">Add to Cart</button>
-        <a href="product3.html" class="buy-btn">Buy</a>
-      </div>
-    </div>
-    <div class="product-card" data-name="Note Book">
-      <img src="book.png" alt="Stylish Cover Notebooks">
-      <h3>Note Book - <span class="price-text">400 Rs</span></h3>
-      <p>Stylish Cover Notebooks</p>
-      <div class="button-group">
-        <button onclick="addToCart('Note Book', 400, 'book.png')">Add to Cart</button>
-        <a href="product4.html" class="buy-btn">Buy</a>
-      </div>
-    </div>
-    <div class="product-card" data-name="Glitter GellPen">
-      <img src="pen.png" alt="Mega Pack – 100 Glitter Gel Pens">
-      <h3>Glitter GellPen - <span class="price-text">1500 Rs</span></h3>
-      <p>Mega Pack – 100 Glitter Gel Pens</p>
-      <div class="button-group">
-        <button onclick="addToCart('Glitter GellPen', 1500, 'pen.png')">Add to Cart</button>
-        <a href="product5.html" class="buy-btn">Buy</a>
-      </div>
-    </div>
-    <div class="product-card" data-name="Stapler">
-      <img src="staper.png" alt="Durable Office Stapler">
-      <h3>Stapler - <span class="price-text">600 Rs</span></h3>
-      <p>Durable Office Stapler</p>
-      <div class="button-group">
-        <button onclick="addToCart('Stapler', 600, 'staper.png')">Add to Cart</button>
-        <a href="product6.html" class="buy-btn">Buy</a>
-      </div>
-    </div>
+    
   </div>
   <p id="noResult" style="text-align:center; color:#ff4d4d; margin-top:20px; display:none;">No result found</p>
 </section>
 
 <script>
-// Cart Panel Toggle
+// initial products
+const initialProducts = [
+ {name:"Ring Light", price:2000, img:"light2.png", desc:"Ring Light with Adjustable Stand", link:"ringlight.html"},
+ {name:"Power Bank", price:3500, img:"powerbank.png", desc:"Solar-Charge 20,000 mAh Waterproof Power Bank", link:"powerbank.html"},
+ {name:"Selfie Stick", price:1200, img:"selfirstick.png", desc:"Adjustable Selfie Stick & Stand", link:"product3.html"},
+ {name:"Note Book", price:400, img:"book.png", desc:"Stylish Cover Notebooks", link:"product4.html"},
+ {name:"Glitter GellPen", price:1500, img:"pen.png", desc:"Mega Pack – 100 Glitter Gel Pens", link:"product5.html"},
+ {name:"Stapler", price:600, img:"staper.png", desc:"Durable Office Stapler", link:"product6.html"}
+];
+initialProducts.push(
+ {name:"Desk Lamp", price:1800, img:"desklamp.png", desc:"LED Desk Lamp", link:"desklamp.html"},
+ {name:"Sticky Notes", price:200, img:"stickynotes.png", desc:"Colorful Sticky Notes", link:"stickynotes.html"},
+ {name:"Pen Holder", price:500, img:"penholder.png", desc:"Desk Organizer Pen Holder", link:"penholder.html"},
+ {name:"Highlighter Set", price:300, img:"highlighter.png", desc:"5-Color Highlighter Set", link:"highlighter.html"},
+ {name:"Planner Book", price:1200, img:"planner.png", desc:"2025 Planner Book", link:"planner.html"},
+ {name:"Mouse Pad", price:400, img:"mousepad.png", desc:"Gaming Mouse Pad", link:"mousepad.html"},
+ {name:"Earphones", price:1500, img:"earphones.png", desc:"Wired Earphones with Mic", link:"earphones.html"},
+ {name:"USB Hub", price:800, img:"usbhub.png", desc:"4-Port USB Hub", link:"usbhub.html"},
+ {name:"Laptop Stand", price:2000, img:"laptopstand.png", desc:"Adjustable Laptop Stand", link:"laptopstand.html"},
+ {name:"Backpack", price:2500, img:"backpack.png", desc:"Waterproof Backpack", link:"backpack.html"},
+ {name:"Water Bottle", price:500, img:"bottle.png", desc:"500ml Stainless Steel Bottle", link:"bottle.html"},
+ {name:"Desk Organizer", price:1000, img:"deskorganizer.png", desc:"Multi-Compartment Desk Organizer", link:"deskorganizer.html"},
+ {name:"Wall Clock", price:900, img:"clock.png", desc:"Silent Wall Clock", link:"clock.html"},
+ {name:"Table Fan", price:1800, img:"tablefan.png", desc:"Mini Table Fan", link:"tablefan.html"},
+ {name:"Bluetooth Speaker", price:2200, img:"speaker.png", desc:"Portable Bluetooth Speaker", link:"speaker.html"},
+ {name:"Notebook Set", price:700, img:"notebookset.png", desc:"Pack of 3 Notebooks", link:"notebookset.html"},
+ {name:"Markers", price:350, img:"markers.png", desc:"Set of Colored Markers", link:"markers.html"},
+ {name:"Calculator", price:500, img:"calculator.png", desc:"Scientific Calculator", link:"calculator.html"},
+ {name:"Scissors", price:150, img:"scissors.png", desc:"Office Scissors", link:"scissors.html"},
+{name:"Glue Stick", price:100, img:"glue.png", desc:"Strong Glue Stick", link:"glue.html"},
+{name:"Ring Light", price:2000, img:"light7.png", desc:"Description here", link:"product1.html"},
+{name:"Power Bank", price:3500, img:"powerbank1.png", desc:"Description here", link:"product2.html"},
+{name:"Selfie Stick", price:1200, img:"selfiestick.png", desc:"Description here", link:"product3.html"},
+{name:"Note Book", price:400, img:"notebook.png", desc:"Description here", link:"product4.html"},
+{name:"Glitter Gel Pen", price:1500, img:"pen.png", desc:"Description here", link:"product5.html"},
+{name:"Stapler", price:600, img:"stapler.png", desc:"Description here", link:"product6.html"},
+{name:"Desk Lamp", price:1800, img:"desklamp.png", desc:"Description here", link:"product7.html"},
+{name:"Sticky Notes", price:200, img:"stickynotes.png", desc:"Description here", link:"product8.html"},
+{name:"Pen Holder", price:500, img:"penholder.png", desc:"Description here", link:"product9.html"},
+{name:"Highlighter Set", price:300, img:"highlighter.png", desc:"Description here", link:"product10.html"},
+{name:"Planner Book", price:1200, img:"planner.png", desc:"Description here", link:"product11.html"},
+{name:"Mouse Pad", price:400, img:"mousepad.png", desc:"Description here", link:"product12.html"},
+{name:"Earphones", price:1500, img:"earphones.png", desc:"Description here", link:"product13.html"},
+{name:"USB Hub", price:800, img:"usbhub.png", desc:"Description here", link:"product14.html"},
+{name:"Laptop Stand", price:2000, img:"laptopstand.png", desc:"Description here", link:"product15.html"},
+{name:"Backpack", price:2500, img:"backpack.png", desc:"Description here", link:"product16.html"},
+{name:"Water Bottle", price:500, img:"bottle.png", desc:"Description here", link:"product17.html"},
+{name:"Desk Organizer", price:1000, img:"deskorganizer.png", desc:"Description here", link:"product18.html"},
+{name:"Wall Clock", price:900, img:"clock.png", desc:"Description here", link:"product19.html"},
+{name:"Table Fan", price:1800, img:"tablefan.png", desc:"Description here", link:"product20.html"},
+{name:"Bluetooth Speaker", price:2200, img:"speaker.png", desc:"Description here", link:"product21.html"},
+{name:"Notebook Set", price:700, img:"notebookset.png", desc:"Description here", link:"product22.html"},
+{name:"Markers", price:350, img:"markers.png", desc:"Description here", link:"product23.html"},
+{name:"Calculator", price:500, img:"calculator.png", desc:"Description here", link:"product24.html"},
+{name:"Scissors", price:150, img:"scissors.png", desc:"Description here", link:"product25.html"},
+{name:"Glue Stick", price:100, img:"glue.png", desc:"Description here", link:"product26.html"},
+{name:"Whiteboard", price:2500, img:"whiteboard.png", desc:"Description here", link:"product27.html"},
+{name:"Office Chair", price:4000, img:"chair.png", desc:"Description here", link:"product28.html"},
+{name:"Desk Mat", price:600, img:"deskmatt.png", desc:"Description here", link:"product29.html"},
+{name:"Laptop Sleeve", price:1200, img:"laptopsleeve.png", desc:"Description here", link:"product30.html"},
+{name:"Headphones", price:1800, img:"headphones.png", desc:"Description here", link:"product31.html"},
+{name:"Microphone", price:2500, img:"microphone.png", desc:"Description here", link:"product32.html"},
+{name:"Webcam", price:2000, img:"webcam.png", desc:"Description here", link:"product33.html"},
+{name:"Smartwatch", price:4500, img:"smartwatch.png", desc:"Description here", link:"product34.html"},
+{name:"Coffee Mug", price:500, img:"coffeemug.png", desc:"Description here", link:"product35.html"},
+{name:"Pen Set", price:300, img:"penset.png", desc:"Description here", link:"product36.html"},
+{name:"Sticky Tabs", price:150, img:"stickytabs.png", desc:"Description here", link:"product37.html"},
+{name:"File Folder", price:250, img:"folder.png", desc:"Description here", link:"product38.html"},
+{name:"Mouse", price:800, img:"mouse.png", desc:"Description here", link:"product39.html"},
+{name:"Keyboard", price:1200, img:"keyboard.png", desc:"Description here", link:"product40.html"},
+{name:"Monitor Stand", price:1500, img:"monitorstand.png", desc:"Description here", link:"product41.html"},
+{name:"Desk Lamp Clip", price:900, img:"lampclip.png", desc:"Description here", link:"product42.html"},
+{name:"Laptop Cooling Pad", price:2000, img:"coolingpad.png", desc:"Description here", link:"product43.html"},
+{name:"Phone Stand", price:400, img:"phonestand.png", desc:"Description here", link:"product44.html"},
+{name:"Ring Holder", price:250, img:"ringholder.png", desc:"Description here", link:"product45.html"},
+{name:"Sketchbook", price:700, img:"sketchbook.png", desc:"Description here", link:"product46.html"},
+{name:"Drawing Pencils", price:300, img:"pencils.png", desc:"Description here", link:"product47.html"},
+{name:"Art Markers", price:500, img:"artmarkers.png", desc:"Description here", link:"product48.html"},
+{name:"Desk Shelf", price:1200, img:"deskshelf.png", desc:"Description here", link:"product49.html"},
+{name:"Cable Organizer", price:350, img:"cableorganizer.png", desc:"Description here", link:"product50.html"}
+);
+
+let loadedIndex = 0;
+const batchSize = 6;
+
+function loadProducts(){
+  const grid = document.getElementById("productGrid");
+  for(let i=0;i<batchSize;i++){
+    if(loadedIndex >= initialProducts.length) return;
+    const p = initialProducts[loadedIndex++];
+
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.setAttribute("data-name", p.name);
+
+    card.innerHTML = `
+      <img src="${p.img}">
+      <h3>${p.name} - <span class="price-text">${p.price} Rs</span></h3>
+      <p>${p.desc}</p>
+      <div class="button-group">
+        <button onclick="addToCart('${p.name}',${p.price},'${p.img}')">Add to Cart</button>
+        <a href="${p.link}" class="buy-btn">Buy</a>
+      </div>
+    `;
+
+    grid.appendChild(card);
+
+    setTimeout(()=>{card.classList.add("show")},100);
+  }
+}
+
+loadProducts();
+
+window.addEventListener("scroll",()=>{
+  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 300){
+    loadProducts();
+  }
+});
+
+// Cart Panel
 const cartIcon = document.querySelector('.cart');
 const miniCart = document.getElementById('miniCart');
 cartIcon.addEventListener('click', ()=> { 
     miniCart.style.display = miniCart.style.display === 'block' ? 'none' : 'block'; 
 });
 
-// Load cart items from localStorage on page load
 function loadMiniCart(){
   const cartItems = document.getElementById('cartItems');
   cartItems.innerHTML = '';
@@ -203,24 +287,19 @@ function loadMiniCart(){
 }
 loadMiniCart();
 
-// Add product to mini cart & save to localStorage
 function addToCart(name, price, img){
-  // Show notification
   const notification = document.getElementById('cartNotification');
   notification.textContent = `${name} added to cart`;
   notification.style.opacity = '1';
   setTimeout(()=>{ notification.style.opacity = '0'; },2000);
 
-  // Save in localStorage
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.push({name: name, price: price, img: img});
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  // Update mini cart UI
   loadMiniCart();
 }
 
-// Remove cart item without closing cart
 function removeItem(button){
   const cartItemsContainer = document.getElementById('cartItems');
   const items = Array.from(cartItemsContainer.children);
@@ -231,18 +310,27 @@ function removeItem(button){
   loadMiniCart();
 }
 
-// Search
+// LIVE SEARCH
 function searchProduct() {
   const query = document.getElementById('searchInput').value.toLowerCase();
-  const products = document.querySelectorAll('.product-card');
+  const cards = document.querySelectorAll('.product-card');
   let found = false;
-  products.forEach(product => {
-    const name = product.dataset.name.toLowerCase();
-    if(name.includes(query)) {product.style.display='flex'; found=true;} 
-    else {product.style.display='none';}
+
+  cards.forEach(c=>{
+    const name = c.getAttribute('data-name').toLowerCase();
+    if(name.includes(query)){
+      c.style.display='flex';
+      found = true;
+    } else {
+      c.style.display='none';
+    }
   });
+
   document.getElementById('noResult').style.display = found ? 'none' : 'block';
 }
+
+document.getElementById('searchInput').addEventListener('input', searchProduct);
+
 document.getElementById('searchInput').addEventListener('keypress', function(e){ if(e.key==='Enter'){searchProduct();} });
 </script>
 </body>
